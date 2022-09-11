@@ -1,0 +1,33 @@
+# This Docker Compose file can be used to quickly bootup
+# Dgraph Zero and Alpha in different Docker containers.
+
+# It mounts the <repo>/data folder from the host machine
+# onto /dgraph within the container.
+#
+# Run `docker-compose up` to start Dgraph.
+#
+# NOTE: Whitelisting is set to private address ranges.
+#       This is ONLY for a local setup.
+#       Please change it accordingly for your production setup
+#       https://dgraph.io/docs/deploy/dgraph-administration/#whitelisting-admin-operations
+
+version: "3.2"
+services:
+  zero:
+    image: dgraph/dgraph:v21.03.0
+    volumes:
+      - ./data:/dgraph
+    ports:
+      - 5080:5080
+      - 6080:6080
+    restart: on-failure
+    command: dgraph zero --my=zero:5080
+  alpha:
+    image: dgraph/dgraph:v21.03.0
+    volumes:
+      - ./data:/dgraph
+    ports:
+      - 8080:8080
+      - 9080:9080
+    restart: on-failure
+    command: dgraph alpha --my=alpha:7080 --zero=zero:5080 --security whitelist=10.0.0.0/8,172.0.0.0/8,192.168.0.0/16,127.0.0.1
