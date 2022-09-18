@@ -11,16 +11,15 @@
     * [GraphQL vs DQL](https://dgraph.io/blog/post/graphql-vs-dql/)
     * [pydgraph](https://dgraph.io/docs/clients/python/)
     * [Deployment and Management](https://dgraph.io/docs/deploy/overview/)
+        * [Production Checklist](https://dgraph.io/docs/deploy/production-checklist/)
+* [Dgraph + Ratel](https://github.com/dgraph-io/ratel)
 * [FastAPI + GraphQL](https://fastapi.tiangolo.com/advanced/graphql/)
 
-## SETUP
+## SETUP and RUN
 
-* Install Python 3.9 (preferrably from Homebrew)
-* Install Python packages and activate venv
-    ```none
-    $ pipenv install --dev --python=/path/to/python3.9
-    $ pipenv shell
-    ```
+### Dgraph
+
+* Install Docker and `docker-compose`
 * Start the local Dgraph Zero and Alpha instances (in a separate terminal)
     ```none
     $ docker-compose -f deployment/docker-compose.yml up
@@ -37,6 +36,28 @@
         Number of people named "Bob": 0
         DONE!
         ```
+
+### Ratel
+
+* [Download `ratel` executable](https://github.com/dgraph-io/ratel/releases) (make sure it matches Dgraph version)
+* (Optional) Add the path to `ratel` to `PATH`
+* Run `ratel`
+    ```none
+    ~$ which ratel
+    /path/to/ratel/dgraph-ratel-macos/ratel
+    ~$ ratel
+    2022/09/18 16:17:00 Listening on :8000...
+    ```
+* Open the dashboard at <localhost:8000>
+
+### App
+
+* Install Python 3.9 (preferrably from Homebrew)
+* Install Python packages and activate venv
+    ```none
+    $ pipenv install --dev --python=/path/to/python3.9
+    $ pipenv shell
+    ```
 * Run the app
     ```none
     $ uvicorn app.service:app --port=8000
